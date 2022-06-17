@@ -71,17 +71,20 @@ class RecipeSerializer(serializers.ModelSerializer):
         tag_data = validated_data.pop('tags')
         author = self.context['request'].user
         recipe = Recipe.objects.create(author=author, **validated_data)
-        recipe.tags.set(tag_data)
-        for ingridient_data in ingridients_data:
-            IngridientAmount.objects.create(recipe=recipe, **ingridient_data)
+        self.ingridient_amount_create(recipe, tag_data, ingridients_data)
         return recipe
 
     def update(self, instance, validated_data):
         ingridients_data = validated_data.pop('ingridient_amount')
         tag_data = validated_data.pop('tags')
         Recipe.objects.filter(pk=instance.pk).update(**validated_data)
-        instance.tags.set(tag_data)
         IngridientAmount.objects.filter(recipe=instance).delete()
-        for ingridient_data in ingridients_data:
-            IngridientAmount.objects.create(recipe=instance, **ingridient_data)
+        self.ingridient_amount_create(instance, tag_data, ingridients_data)
         return instance
+
+    def ingridient_amount_create(self, recipe, tag_data, ingridients_data):
+        recipe.tags.set(tag_data)
+        IngridientAmount.objects.bulk_create([
+            IngridientAmount(recipe=recipe, **ingridient_data)
+            for ingridient_data in ingridients_data
+        ])

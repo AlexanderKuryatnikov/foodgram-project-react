@@ -107,14 +107,16 @@ class ShoppingCartAPIView(views.APIView):
 def download_shopping_cart_view(request):
     shopping_cart = request.user.shopping_cart.all()
     in_cart = Recipe.objects.filter(shopping_cart__in=shopping_cart)
-    shopping_list = IngridientAmount.objects \
-        .values('ingridient__name', 'ingridient__measurement_unit') \
-        .filter(recipe__in=in_cart) \
+    shopping_list = (
+        IngridientAmount.objects
+        .values('ingridient__name', 'ingridient__measurement_unit')
+        .filter(recipe__in=in_cart)
         .annotate(amount=Sum('amount'))
-    print(shopping_list)
+    )
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = \
+    response['Content-Disposition'] = (
         'attachment;filename="shopping_list.csv"'
+    )
     writer = csv.writer(response)
     for row in shopping_list:
         writer.writerow([row['ingridient__name'],
