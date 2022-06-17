@@ -72,8 +72,6 @@ class SubscribtionSerializer(serializers.ModelSerializer):
     def get_limited_recipes(self, obj):
         recipe_qs = obj.recipes.all()
         limit = self.context['request'].query_params.get('recipes_limit')
-        print(self.context['request'])
-        print(limit)
         try:
             limit = int(limit)
         except ValueError:
