@@ -113,6 +113,9 @@ DJOSER = {
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
+# Paginator
+PAGE_SIZE = 6
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

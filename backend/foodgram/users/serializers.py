@@ -52,7 +52,9 @@ class RecipeInfoSerializer(serializers.ModelSerializer):
 class SubscribtionSerializer(serializers.ModelSerializer):
     is_subscribed = serializers.SerializerMethodField()
     recipes = serializers.SerializerMethodField('get_limited_recipes')
-    recipes_count = serializers.SerializerMethodField()
+    recipes_count = serializers.IntegerField(
+        source='recipes.count'
+    )
 
     class Meta:
         model = User
@@ -65,9 +67,6 @@ class SubscribtionSerializer(serializers.ModelSerializer):
     def get_is_subscribed(self, obj):
         return self.context['request'].user.subscriber.filter(
             subscribed=obj).exists()
-
-    def get_recipes_count(self, obj):
-        return obj.recipes.all().count()
 
     def get_limited_recipes(self, obj):
         recipe_qs = obj.recipes.all()
