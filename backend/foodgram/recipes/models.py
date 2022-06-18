@@ -27,7 +27,7 @@ class Tag(models.Model):
         verbose_name_plural = 'Теги'
 
 
-class Ingridient(models.Model):
+class Ingredient(models.Model):
     name = models.CharField(
         'Название',
         max_length=256,
@@ -63,10 +63,10 @@ class Recipe(models.Model):
         verbose_name='Теги',
         related_name='recipes',
     )
-    ingridients = models.ManyToManyField(
-        Ingridient,
+    ingredients = models.ManyToManyField(
+        Ingredient,
         verbose_name='Ингредиенты',
-        through='IngridientAmount',
+        through='IngredientAmount',
         related_name='recipes',
     )
     image = models.ImageField(
@@ -87,18 +87,18 @@ class Recipe(models.Model):
         ordering = ['-pub_date']
 
 
-class IngridientAmount(models.Model):
-    ingridient = models.ForeignKey(
-        Ingridient,
+class IngredientAmount(models.Model):
+    ingredient = models.ForeignKey(
+        Ingredient,
         verbose_name='Ингредиент',
         on_delete=models.CASCADE,
-        related_name='ingridient_amount'
+        related_name='ingredient_amount'
     )
     recipe = models.ForeignKey(
         Recipe,
         verbose_name='Рецепт',
         on_delete=models.CASCADE,
-        related_name='ingridient_amount'
+        related_name='ingredient_amount'
     )
     amount = models.DecimalField(
         'Количество',
@@ -111,8 +111,8 @@ class IngridientAmount(models.Model):
         verbose_name_plural = 'Количество ингредиентов'
         constraints = [
             models.UniqueConstraint(
-                fields=['ingridient', 'recipe'],
-                name='unique_ingridient'
+                fields=['ingredient', 'recipe'],
+                name='unique_ingredient'
             )
         ]
 

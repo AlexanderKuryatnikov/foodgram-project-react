@@ -11,13 +11,13 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from recipes.models import (Favorite, Ingridient, IngridientAmount, Recipe,
+from recipes.models import (Favorite, Ingredient, IngredientAmount, Recipe,
                             ShoppingCart, Tag)
 from users.paginators import CustomPagination
 from users.serializers import RecipeInfoSerializer
 from .filters import RecipeFilter
 from .permissions import AuthorOrAuthPostOrReadOnly
-from .serializers import IngridientSerializer, RecipeSerializer, TagSerializer
+from .serializers import IngredientSerializer, RecipeSerializer, TagSerializer
 
 
 class ListRetrieveViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
@@ -31,9 +31,9 @@ class TagViewSet(ListRetrieveViewSet):
     permission_classes = (AllowAny,)
 
 
-class IngridientViewSet(ListRetrieveViewSet):
-    queryset = Ingridient.objects.all()
-    serializer_class = IngridientSerializer
+class IngredientViewSet(ListRetrieveViewSet):
+    queryset = Ingredient.objects.all()
+    serializer_class = IngredientSerializer
     permission_classes = (AllowAny,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('^name',)
@@ -108,8 +108,8 @@ def download_shopping_cart_view(request):
     shopping_cart = request.user.shopping_cart.all()
     in_cart = Recipe.objects.filter(shopping_cart__in=shopping_cart)
     shopping_list = (
-        IngridientAmount.objects
-        .values('ingridient__name', 'ingridient__measurement_unit')
+        IngredientAmount.objects
+        .values('ingredient__name', 'ingredient__measurement_unit')
         .filter(recipe__in=in_cart)
         .annotate(amount=Sum('amount'))
     )
@@ -119,7 +119,7 @@ def download_shopping_cart_view(request):
     )
     writer = csv.writer(response)
     for row in shopping_list:
-        writer.writerow([row['ingridient__name'],
+        writer.writerow([row['ingredient__name'],
                          row['amount'],
-                         row['ingridient__measurement_unit']])
+                         row['ingredient__measurement_unit']])
     return response

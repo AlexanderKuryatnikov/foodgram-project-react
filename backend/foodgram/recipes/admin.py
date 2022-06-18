@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .models import (Favorite, Ingridient, IngridientAmount, Recipe,
+from .models import (Favorite, Ingredient, IngredientAmount, Recipe,
                      ShoppingCart, Tag)
 
 
-class IngridientAdmin(admin.ModelAdmin):
+class IngredientAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'measurement_unit')
     search_fields = ('name',)
 
@@ -13,14 +13,14 @@ class TagAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'color', 'slug')
 
 
-class IngridientAmountInline(admin.TabularInline):
-    model = IngridientAmount
+class IngredientAmountInline(admin.TabularInline):
+    model = IngredientAmount
     extra = 1
-    list_display = ('pk', 'ingridient', 'recipe', 'amount')
+    list_display = ('pk', 'ingredient', 'recipe', 'amount')
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    inlines = (IngridientAmountInline,)
+    inlines = (IngredientAmountInline,)
     readonly_fields = ('times_favorited',)
     list_display = ('pk', 'name', 'author', 'pub_date', 'get_tags')
     search_fields = ('name', 'author__username', 'tags__name')
@@ -42,7 +42,7 @@ class ShoppingCartAdmin(admin.ModelAdmin):
     search_fields = ('user__username',)
 
 
-admin.site.register(Ingridient, IngridientAdmin)
+admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Favorite, FavoriteAdmin)
