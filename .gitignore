@@ -136,3 +136,6 @@ media/
 
 # vscode
 .vscode/
+
+# data
+ingredients.json

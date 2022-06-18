@@ -31,7 +31,6 @@ class Ingredient(models.Model):
     name = models.CharField(
         'Название',
         max_length=256,
-        unique=True,
     )
     measurement_unit = models.CharField(
         'Единицы измерения',
@@ -41,6 +40,12 @@ class Ingredient(models.Model):
     class Meta:
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'measurement_unit'],
+                name='unique_ingredient'
+            )
+        ]
 
 
 class Recipe(models.Model):
@@ -112,7 +117,7 @@ class IngredientAmount(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['ingredient', 'recipe'],
-                name='unique_ingredient'
+                name='unique_ingredient_amount'
             )
         ]
 
