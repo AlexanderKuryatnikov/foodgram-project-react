@@ -60,7 +60,7 @@ class RecipeInfoSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'image', 'cooking_time')
 
 
-class SubscribtionSerializer(serializers.ModelSerializer):
+class SubscriptionSerializer(serializers.ModelSerializer):
     is_subscribed = serializers.SerializerMethodField()
     recipes = serializers.SerializerMethodField('get_limited_recipes')
     recipes_count = serializers.IntegerField(
@@ -96,7 +96,7 @@ class SubscribtionSerializer(serializers.ModelSerializer):
         return RecipeInfoSerializer(instance=recipe_qs, many=True).data
 
 
-class SubscribtionCreateSerializer(SubscribtionSerializer):
+class SubscriptionCreateSerializer(SubscriptionSerializer):
 
     def get_is_subscribed(self, obj):
         return True

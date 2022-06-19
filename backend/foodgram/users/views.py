@@ -6,10 +6,10 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Subscribtion, User
+from .models import Subscription, User
 from .paginators import CustomPagination
 from .serializers import (PasswordChangeSerializer,
-                          SubscribtionCreateSerializer, SubscribtionSerializer,
+                          SubscriptionCreateSerializer, SubscriptionSerializer,
                           UserReadSerializer, UserRegisterSerializer)
 
 
@@ -53,8 +53,8 @@ def password_change_view(request):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class SubscribtionListView(generics.ListAPIView):
-    serializer_class = SubscribtionSerializer
+class SubscriptionListView(generics.ListAPIView):
+    serializer_class = SubscriptionSerializer
     permission_classes = (IsAuthenticated,)
     pagination_class = CustomPagination
 
@@ -62,7 +62,7 @@ class SubscribtionListView(generics.ListAPIView):
         return User.objects.filter(subscribed__user=self.request.user)
 
 
-class SubscribtionAPIView(views.APIView):
+class SubscriptionAPIView(views.APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, **kwargs):
@@ -73,11 +73,11 @@ class SubscribtionAPIView(views.APIView):
             raise ValidationError(
                 {'detail': 'Нельзя подписаться на себя самого'})
         try:
-            Subscribtion.objects.create(user=subscriber, subscribed=subscribed)
+            Subscription.objects.create(user=subscriber, subscribed=subscribed)
         except IntegrityError:
             raise ValidationError(
                 {'detail': 'Вы уже подписаны на этого пользователя'})
-        serializer = SubscribtionCreateSerializer(subscribed,
+        serializer = SubscriptionCreateSerializer(subscribed,
                                                   context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -85,7 +85,7 @@ class SubscribtionAPIView(views.APIView):
         user_id = kwargs.get('user_id')
         subscriber = request.user
         subscribed = get_object_or_404(User, pk=user_id)
-        instance = Subscribtion.objects.filter(user=subscriber,
+        instance = Subscription.objects.filter(user=subscriber,
                                                subscribed=subscribed)
         if not instance:
             raise ValidationError(

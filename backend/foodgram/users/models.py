@@ -33,7 +33,7 @@ class CustomUser(AbstractUser):
 User = get_user_model()
 
 
-class Subscribtion(models.Model):
+class Subscription(models.Model):
     user = models.ForeignKey(
         User,
         verbose_name='Пользователь',
@@ -53,6 +53,6 @@ class Subscribtion(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'subscribed'],
-                name='unique_subsrcibtion'
+                name='unique_subsrciption'
             )
         ]

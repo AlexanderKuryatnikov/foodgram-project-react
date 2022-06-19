@@ -2,7 +2,7 @@ from django.urls import include, path, re_path
 from djoser.views import TokenCreateView, TokenDestroyView
 from rest_framework import routers
 
-from .views import (SubscribtionAPIView, SubscribtionListView, UserSelfView,
+from .views import (SubscriptionAPIView, SubscriptionListView, UserSelfView,
                     UserViewSet, password_change_view)
 
 router = routers.DefaultRouter()
@@ -30,13 +30,13 @@ urlpatterns = [
         name='user-me'
     ),
     path(
-        'users/subscribtions/',
-        SubscribtionListView.as_view(),
-        name='subscribtions'
+        'users/subscriptions/',
+        SubscriptionListView.as_view(),
+        name='subscriptions'
     ),
     re_path(
         r'users/(?P<user_id>\d+)/subscribe/',
-        SubscribtionAPIView.as_view(),
+        SubscriptionAPIView.as_view(),
         name='subscribe'
     ),
     path('', include(router.urls)),
