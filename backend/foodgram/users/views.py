@@ -66,7 +66,7 @@ class SubscribtionAPIView(views.APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, **kwargs):
-        user_id = kwargs.get('user_id')
+        user_id = kwargs.get('id')
         subscriber = request.user
         subscribed = get_object_or_404(User, pk=user_id)
         if subscriber == subscribed:
@@ -82,7 +82,7 @@ class SubscribtionAPIView(views.APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, **kwargs):
-        user_id = kwargs.get('user_id')
+        user_id = kwargs.get('id')
         subscriber = request.user
         subscribed = get_object_or_404(User, pk=user_id)
         instance = Subscribtion.objects.filter(user=subscriber,

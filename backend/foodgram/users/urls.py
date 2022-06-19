@@ -35,7 +35,7 @@ urlpatterns = [
         name='subscribtions'
     ),
     re_path(
-        r'users/(?P<user_id>\d+)/subscribe/',
+        r'users/(?P<id>\d+)/subscribe/',
         SubscribtionAPIView.as_view(),
         name='subscribe'
     ),

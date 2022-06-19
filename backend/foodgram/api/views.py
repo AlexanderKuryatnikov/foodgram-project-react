@@ -52,7 +52,7 @@ class FavoriteAPIView(views.APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, **kwargs):
-        recipe_id = kwargs.get('recipe_id')
+        recipe_id = kwargs.get('id')
         recipe = get_object_or_404(Recipe, pk=recipe_id)
         user = request.user
         try:
@@ -63,7 +63,7 @@ class FavoriteAPIView(views.APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, **kwargs):
-        recipe_id = kwargs.get('recipe_id')
+        recipe_id = kwargs.get('id')
         recipe = get_object_or_404(Recipe, pk=recipe_id)
         user = request.user
         instance = Favorite.objects.filter(user=user,
@@ -79,7 +79,7 @@ class ShoppingCartAPIView(views.APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, **kwargs):
-        recipe_id = kwargs.get('recipe_id')
+        recipe_id = kwargs.get('id')
         recipe = get_object_or_404(Recipe, pk=recipe_id)
         user = request.user
         try:
@@ -90,7 +90,7 @@ class ShoppingCartAPIView(views.APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, **kwargs):
-        recipe_id = kwargs.get('recipe_id')
+        recipe_id = kwargs.get('id')
         recipe = get_object_or_404(Recipe, pk=recipe_id)
         user = request.user
         instance = ShoppingCart.objects.filter(user=user,
