@@ -40,7 +40,7 @@ def password_change_view(request):
     serializer.is_valid(raise_exception=True)
     user = request.user
 
-    if user.password != serializer.validated_data.get('password'):
+    if not user.check_password(serializer.validated_data.get('password')):
         raise ValidationError({'old_password': 'Неправильный старый пароль'})
     if (serializer.validated_data.get('password')
             == serializer.validated_data.get('new_password')):
@@ -48,7 +48,8 @@ def password_change_view(request):
             {'detail': 'Новый пароль должен отличаться от старого'}
         )
 
-    user.password = serializer.validated_data.get('new_password')
+    user.set_password(serializer.validated_data.get('new_password'))
+    user.save()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
