@@ -12,12 +12,12 @@ router.register('recipes', RecipeViewSet, basename='recipe')
 
 urlpatterns = [
     re_path(
-        r'recipes/(?P<id>\d+)/favorite/',
+        r'recipes/(?P<recipe_id>\d+)/favorite/',
         FavoriteAPIView.as_view(),
         name='favorite'
     ),
     re_path(
-        r'recipes/(?P<id>\d+)/shopping_cart/',
+        r'recipes/(?P<recipe_id>\d+)/shopping_cart/',
         ShoppingCartAPIView.as_view(),
         name='shopping_cart'
     ),
