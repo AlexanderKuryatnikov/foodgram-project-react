@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from .validators import validate_time
+from .validators import validate_ingredient_amount, validate_time
 
 User = get_user_model()
 
@@ -83,7 +83,7 @@ class Recipe(models.Model):
     )
     cooking_time = models.PositiveIntegerField(
         'Время приготовления',
-        validators=(validate_time,)
+        validators=(validate_ingredient_amount,)
     )
 
     class Meta:
@@ -105,10 +105,9 @@ class IngredientAmount(models.Model):
         on_delete=models.CASCADE,
         related_name='ingredient_amount'
     )
-    amount = models.DecimalField(
+    amount = models.PositiveIntegerField(
         'Количество',
-        max_digits=6,
-        decimal_places=2,
+        validators=(validate_time,)
     )
 
     class Meta:
