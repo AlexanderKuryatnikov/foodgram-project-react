@@ -48,10 +48,10 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ('tags', 'author', 'ingredients', 'is_favorited',
+        fields = ('id', 'tags', 'author', 'ingredients', 'is_favorited',
                   'is_in_shopping_cart', 'name', 'image', 'text',
                   'cooking_time')
-        read_only_fields = ('is_favorited', 'is_in_shopping_cart')
+        read_only_fields = ('id', 'is_favorited', 'is_in_shopping_cart')
 
     def get_is_favorited(self, obj):
         user = self.context['request'].user
