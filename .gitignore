@@ -131,8 +131,9 @@ dmypy.json
 # .idea
 .idea
 
-# media
-media/
+# media and static
+backend_media/
+backend_static/
 
 # vscode
 .vscode/
