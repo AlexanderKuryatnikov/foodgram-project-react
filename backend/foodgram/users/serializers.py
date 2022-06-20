@@ -45,11 +45,11 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 class PasswordChangeSerializer(serializers.ModelSerializer):
     new_password = serializers.CharField(max_length=128)
-    old_password = serializers.CharField(source='password')
+    current_password = serializers.CharField(source='password')
 
     class Meta:
         model = User
-        fields = ('new_password', 'old_password')
+        fields = ('new_password', 'current_password')
 
 
 class RecipeInfoSerializer(serializers.ModelSerializer):
