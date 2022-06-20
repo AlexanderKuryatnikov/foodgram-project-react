@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from recipes.models import Ingredient, Recipe
+from recipes.models import Ingredient, Recipe, Tag
 
 
 class IngredientFilter(filters.FilterSet):
@@ -14,7 +14,8 @@ class IngredientFilter(filters.FilterSet):
 
 
 class RecipeFilter(filters.FilterSet):
-    tags = filters.CharFilter(
+    tags = filters.ModelMultipleChoiceFilter(
+        queryset=Tag.objects.all(),
         field_name='tags__slug',
         lookup_expr='iexact'
     )
