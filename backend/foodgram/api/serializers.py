@@ -47,6 +47,7 @@ class TagField(serializers.RelatedField):
 
 class RecipeSerializer(serializers.ModelSerializer):
     tags = TagField(
+        queryset=Tag.objects.all(),
         many=True
     )
     author = UserReadSerializer(
