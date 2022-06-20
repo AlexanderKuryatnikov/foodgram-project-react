@@ -9,7 +9,6 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('id', 'name', 'color', 'slug')
-        read_only_fields = ('name', 'color', 'slug')
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -40,8 +39,14 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'measurement_unit', 'amount')
 
 
+class TagField(serializers.RelatedField):
+
+    def to_representation(self, tag_value):
+        return TagSerializer(tag_value).data
+
+
 class RecipeSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(
+    tags = TagField(
         many=True
     )
     author = UserReadSerializer(
