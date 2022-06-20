@@ -41,6 +41,9 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
 class TagField(serializers.RelatedField):
 
+    def to_internal_value(self, tag_value):
+        return tag_value
+
     def to_representation(self, tag_value):
         return TagSerializer(tag_value).data
 
