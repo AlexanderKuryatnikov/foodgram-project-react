@@ -34,7 +34,7 @@ class UserSelfView(generics.RetrieveAPIView):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def password_change_view(request):
     serializer = PasswordChangeSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
