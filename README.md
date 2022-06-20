@@ -36,7 +36,7 @@ sudo docker-compose exec web python manage.py collectstatic --no-input
 python manage.py load_ingredients_csv
 ```
 ### Адрес сервера и администратор
-Адрес: http://http://51.250.21.22 \
+Адрес: http://51.250.21.22 \
 Администратор: admin \
 Электронная почта: admin@mail.ru \
 Пароль: admin
